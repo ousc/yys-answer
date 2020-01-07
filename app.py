@@ -48,7 +48,7 @@ while True:
             print("找到答案，本题答案为" + answerMap[str(question)])
 
             for answer_item in answer_items:
-                if(str(answer_item.text).find(answer)!= -1):
+                if(str(answer_item.text).find(answer)!= -1 or str(answer_item.text) == answer):
                     answer_item.click()
                     break
 
