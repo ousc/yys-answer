@@ -33,13 +33,14 @@ while True:
         while line:
             q = line.split("-")[0]
             a = line.split("-")[0]
-            line = f.readline()
             if(q) == question:
                 anwser = a
                 exist_flag = True
+            line = f.readline()
 
         anwser_items = wd.find_elements_by_class_name("answer-item")
         if(exist_flag):
+            print("找到答案")
             for anwser_item in anwser_items:
                 if(anwser_item.text == anwser):
                     anwser_item.click()
