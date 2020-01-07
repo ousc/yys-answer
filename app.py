@@ -30,7 +30,7 @@ while True:
     time.sleep(2)   #等待1秒
 
     wd.find_element_by_class_name("btn-start").find_element_by_tag_name("img").click() # 点击开始参与
-    wd.find_element_by_class_name("dialog").find_element_by_class_name("dialog-inner").find_element_by_class_name("toolbars").find_elements_by_tag_name("div")[0].click() # 点击先随便试试
+    wd.find_element_by_class_name("toolbars").find_elements_by_tag_name("div")[0].click() # 点击先随便试试
 
     while True:
         time.sleep(1)   #等待1秒
@@ -72,8 +72,7 @@ while True:
         time.sleep(2)   #等待2秒
         index += 1
         if(index == 10):
-            wd.find_element_by_class_name("dialog").find_element_by_class_name(
-                "dialog-inner").find_element_by_class_name("toolbars").find_elements_by_tag_name("div")[
-                0].click()  # 点击再玩一次
+            wd.quit()   #关闭浏览器
+            continue
 
     wd.quit()   #关闭浏览器
