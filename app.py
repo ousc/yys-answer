@@ -22,7 +22,7 @@ while True:
     f.close()
     print("导入完成")
 
-    f = open("answer.txt","a+")
+    ff = open("answer.txt","a+")
 
     wd = webdriver.Chrome(options=options)
     wd.get("https://act.ds.163.com/93dcd3b7a7f888e6/")    # 打开平安京学力测试
@@ -46,7 +46,7 @@ while True:
         if(answerMap.get(question) != None): # 如果找到答案，根据答案点击正确答案，继续答下一题
             anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
             anwser = answerMap[str(question)][0]
-            print("找到答案，本题答案为"+anwser)
+            print("找到答案，本题答案为" + str(anwser_items.text))
 
             for anwser_item in anwser_items:
                 if(str(anwser_item.text).find(anwser)!= -1):
@@ -55,28 +55,20 @@ while True:
         else: # 否则默认选第一个，把正确答案加入答案库
             anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
             anwser_items[0].click()
-            time.sleep(2)   #等待2秒
+            time.sleep(1)   #等待1秒
+            index = 0
             try:
-                index = 0
                 anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
-                for anwser_item in anwser_items:
-                    if(anwser_item.get_attribute("class") == "answer-item correct"):
-                        anwser = str(anwser_item.text).split(" ")[1]
-                        print("添加："+question+"-"+anwser)
-                        f.write(question+"#"+anwser+"\n")
-                if(anwser_items[0].get_attribute("class") != "answer-item correct"):
-                    break
             except:
                 time.sleep(3)   #等待3秒
-                index = 0
                 anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
-                for anwser_item in anwser_items:
-                    if(anwser_item.get_attribute("class") == "answer-item correct"):
-                        anwser = str(anwser_item.text).split(" ")[1]
-                        print("添加："+question+"-"+anwser)
-                        f.write(question+"#"+anwser+"\n")
-                if(anwser_items[0].get_attribute("class") != "answer-item correct"):
-                    break
+            for anwser_item in anwser_items:
+                if(anwser_item.get_attribute("class") == "answer-item correct"):
+                    anwser = str(anwser_item.text).split(" ")[1]
+                    print("添加："+question+"-"+anwser)
+                    ff.write(question+"#"+anwser+"\n")
+            if(anwser_items[0].get_attribute("class") != "answer-item correct"):
+                break
         f.close()
         time.sleep(2)   #等待2秒
     wd.quit()   #关闭浏览器
