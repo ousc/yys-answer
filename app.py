@@ -70,7 +70,6 @@ while True:
         time.sleep(2)   #等待2秒
         index += 1
         if(index == 10):
-            wd.quit()   #关闭浏览器
-            continue
+            break
 
     wd.quit()   #关闭浏览器
