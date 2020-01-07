@@ -59,7 +59,10 @@ while True:
             for answer_item in answer_items:
                 if(str(answer_item.text).find(answer)!= -1 or str(answer_item.text) == answer):
                     have = True
-                    answer_item.click()
+                    try:
+                        answer_item.click()
+                    except:
+                        continue
                     break
             if(not have): # 一题多解情况
                 answer_items[0].click()
