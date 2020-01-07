@@ -64,6 +64,7 @@ while True:
                     answer = str(answer_item.text).split(" ")[1]
                     print("添加："+question+"-"+answer)
                     ff.write(question+"#"+answer+"\n")
+                    answerMap[str(question)] = str(answer)
             if(answer_items[0].get_attribute("class") != "answer-item correct"):
                 break
         f.close()
