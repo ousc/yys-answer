@@ -38,9 +38,7 @@ while True:
             question = wd.find_element_by_class_name("question").text # 获得题目
             question = question.split("\n")[0] # 去除题目作者信息
         except:
-            time.sleep(3)   #等待2秒
-            question = wd.find_element_by_class_name("question").text
-            question = question.split("\n")[0]
+            continue
 
         if(answerMap.get(question) != None): # 如果找到答案，根据答案点击正确答案，继续答下一题
             answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
