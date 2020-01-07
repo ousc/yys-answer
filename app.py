@@ -1,7 +1,7 @@
 from selenium import webdriver
 import time
 from pyquery import pyquery as pq
-
+import re
 
 options = webdriver.ChromeOptions()
 options.add_argument('user-agent="Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"')
@@ -44,30 +44,31 @@ while True:
 
 
         if(answerMap.get(question) != None): # 如果找到答案，根据答案点击正确答案，继续答下一题
-            anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
-            anwser = answerMap[str(question)]
+            answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
+            answer = re.sub('[\n]+',answerMap[str(question)])
             print("找到答案，本题答案为" + answerMap[str(question)])
 
-            for anwser_item in anwser_items:
-                if(str(anwser_item.text).find(anwser)!= -1):
-                    anwser_item.click()
+            for answer_item in answer_items:
+                if(str(answer_item.text).find(answer)!= -1):
+                    answer_item.click()
                     break
+
         else: # 否则默认选第一个，把正确答案加入答案库
-            anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
-            anwser_items[0].click()
+            answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
+            answer_items[0].click()
             time.sleep(1)   #等待1秒
             index = 0
             try:
-                anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
+                answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
             except:
                 time.sleep(3)   #等待3秒
-                anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
-            for anwser_item in anwser_items:
-                if(anwser_item.get_attribute("class") == "answer-item correct"):
-                    anwser = str(anwser_item.text).split(" ")[1]
-                    print("添加："+question+"-"+anwser)
-                    ff.write(question+"#"+anwser+"\n")
-            if(anwser_items[0].get_attribute("class") != "answer-item correct"):
+                answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
+            for answer_item in answer_items:
+                if(answer_item.get_attribute("class") == "answer-item correct"):
+                    answer = str(answer_item.text).split(" ")[1]
+                    print("添加："+question+"-"+answer)
+                    ff.write(question+"#"+answer+"\n")
+            if(answer_items[0].get_attribute("class") != "answer-item correct"):
                 break
         f.close()
         time.sleep(2)   #等待2秒
