@@ -9,16 +9,20 @@ options.add_argument('user-agent="Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Ma
 
 while True:
     answerMap = {}
-    f = open("answer.txt","a+")
+    f = open("answer.txt","r")
     line = f.readline()
     while line:
         q = line.split("-")[0]
-        a = line.split("-")[0]
+        a = line.split("-")[1]
         answerMap[q] = a
+        print(q,a)
         line = f.readline()
+    f.close()
+    print("导入完成")
+
+    f = open("answer.txt","a+")
 
     wd = webdriver.Chrome(options=options)
-
     wd.get("https://act.ds.163.com/93dcd3b7a7f888e6/")    # 打开平安京学历测试
 
     time.sleep(2)   #等待1秒
@@ -35,14 +39,16 @@ while True:
             time.sleep(3)   #等待2秒
             question = wd.find_element_by_class_name("question").text #题目
             question = question.split("\n")[0]
-        anwser = ""
 
         anwser_items = wd.find_elements_by_class_name("answer-item")
 
-        if(answerMap[question] != None):
+        if(answerMap.get(question) != None):
             print("找到答案\n")
-            anwser = answerMap[question]
+            anwser = answerMap[str(question)]
+            print(anwser)
+
             for anwser_item in anwser_items:
+                print(anwser_item.text, anwser)
                 if(anwser_item.text == anwser):
                     anwser_item.click()
         else:
