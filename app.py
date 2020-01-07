@@ -46,20 +46,19 @@ while True:
 
         if(answerMap.get(question) != None): # 如果找到答案，根据答案点击正确答案，继续答下一题
             print("找到答案\n")
-            anwser = answerMap[str(question)]
-            print(anwser)
+            anwser = answerMap[str(question)][0]
 
             for anwser_item in anwser_items:
-                print(anwser_item.text, anwser)
-                if(anwser_item.text == anwser):
+                if(str(anwser_item.text).find(anwser)!= -1):
                     anwser_item.click()
+                    break
         else: # 否则默认选第一个，把正确答案加入答案库
             anwser_items[0].click()
+            anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
             time.sleep(2)   #等待2秒
             try:
                 index = 0
                 for anwser_item in anwser_items:
-                    print(anwser_item.get_attribute("class"))
                     if(anwser_item.get_attribute("class") == "answer-item correct"):
                         anwser = anwser_item.text
                         print(question+"-"+anwser)
@@ -70,7 +69,6 @@ while True:
                 time.sleep(3)   #等待2秒
                 index = 0
                 for anwser_item in anwser_items:
-                    print(anwser_item.get_attribute("class"))
                     if(anwser_item.get_attribute("class") == "answer-item correct"):
                         anwser = anwser_item.text
                         print(question+"-"+anwser)
