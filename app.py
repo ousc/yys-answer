@@ -8,6 +8,8 @@ options.add_argument('user-agent="Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Ma
 # 模拟iphone6
 
 while True:
+
+    #导入答案
     answerMap = {}
     f = open("answer.txt","r")
     line = f.readline()
@@ -15,7 +17,7 @@ while True:
         q = line.split("-")[0]
         a = line.split("-")[1]
         answerMap[q] = a
-        print(q,a)
+        print(q,answerMap[q])
         line = f.readline()
     f.close()
     print("导入完成")
@@ -23,7 +25,7 @@ while True:
     f = open("answer.txt","a+")
 
     wd = webdriver.Chrome(options=options)
-    wd.get("https://act.ds.163.com/93dcd3b7a7f888e6/")    # 打开平安京学历测试
+    wd.get("https://act.ds.163.com/93dcd3b7a7f888e6/")    # 打开平安京学力测试
 
     time.sleep(2)   #等待1秒
 
@@ -33,16 +35,16 @@ while True:
     while True:
         time.sleep(1)   #等待1秒
         try:
-            question = wd.find_element_by_class_name("question").text #题目
-            question = question.split("\n")[0]
+            question = wd.find_element_by_class_name("question").text # 获得题目
+            question = question.split("\n")[0] # 去除题目作者信息
         except:
             time.sleep(3)   #等待2秒
-            question = wd.find_element_by_class_name("question").text #题目
+            question = wd.find_element_by_class_name("question").text
             question = question.split("\n")[0]
 
-        anwser_items = wd.find_elements_by_class_name("answer-item")
+        anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
 
-        if(answerMap.get(question) != None):
+        if(answerMap.get(question) != None): # 如果找到答案，根据答案点击正确答案，继续答下一题
             print("找到答案\n")
             anwser = answerMap[str(question)]
             print(anwser)
@@ -51,7 +53,7 @@ while True:
                 print(anwser_item.text, anwser)
                 if(anwser_item.text == anwser):
                     anwser_item.click()
-        else:
+        else: # 否则默认选第一个，把正确答案加入答案库
             anwser_items[0].click()
             time.sleep(2)   #等待2秒
             try:
