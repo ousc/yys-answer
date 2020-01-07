@@ -45,7 +45,7 @@ while True:
 
         if(answerMap.get(question) != None): # 如果找到答案，根据答案点击正确答案，继续答下一题
             answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
-            answer = re.sub('[\n]+',answerMap[str(question)])
+            answer = re.sub('[\n]+', '\n', answerMap[str(question)])
             print("找到答案，本题答案为" + answerMap[str(question)])
 
             for answer_item in answer_items:
