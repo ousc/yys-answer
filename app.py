@@ -8,7 +8,7 @@ options.add_argument('user-agent="Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Ma
 # 模拟iphone6
 
 while True:
-
+    index = 0
     #导入答案
     answerMap = {}
     f = open("answer.txt","r")
@@ -56,7 +56,6 @@ while True:
             answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
             answer_items[0].click()
             time.sleep(1)   #等待1秒
-            index = 0
             try:
                 answer_items = wd.find_elements_by_class_name("answer-item") # 获取选项
             except:
@@ -71,4 +70,10 @@ while True:
                 break
         f.close()
         time.sleep(2)   #等待2秒
+        index += 1
+        if(index == 10):
+            wd.find_element_by_class_name("dialog").find_element_by_class_name(
+                "dialog-inner").find_element_by_class_name("toolbars").find_elements_by_tag_name("div")[
+                0].click()  # 点击再玩一次
+
     wd.quit()   #关闭浏览器
