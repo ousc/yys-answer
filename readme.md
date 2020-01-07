@@ -17,7 +17,7 @@ chromedriver
 python app.py 
 ```
 
-挂机即可
+进入题目，开始答题状态后台挂机即可（在首页初次加载完后台挂机会出错）
 
 答案会在answer.txt里，格式：问题 - 答案
 
