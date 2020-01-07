@@ -14,7 +14,7 @@ while True:
     while line:
         q = line.split("-")[0]
         a = line.split("-")[0]
-        answerMap[q] = anwser
+        answerMap[q] = a
         line = f.readline()
 
     wd = webdriver.Chrome(options=options)
@@ -38,8 +38,8 @@ while True:
         anwser = ""
         exist_flag = False # 是否已经有答案了
 
-        if(answerMap[q] != None):
-            anwser = answerMap[q]
+        if(answerMap[question] != None):
+            anwser = answerMap[question]
             exist_flag = True
 
         anwser_items = wd.find_elements_by_class_name("answer-item")
