@@ -36,15 +36,12 @@ while True:
             question = wd.find_element_by_class_name("question").text #题目
             question = question.split("\n")[0]
         anwser = ""
-        exist_flag = False # 是否已经有答案了
-
-        if(answerMap[question] != None):
-            anwser = answerMap[question]
-            exist_flag = True
 
         anwser_items = wd.find_elements_by_class_name("answer-item")
-        if(exist_flag):
-            print("找到答案")
+
+        if(answerMap[question] != None):
+            print("找到答案\n")
+            anwser = answerMap[question]
             for anwser_item in anwser_items:
                 if(anwser_item.text == anwser):
                     anwser_item.click()
