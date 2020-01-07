@@ -1,6 +1,5 @@
 from selenium import webdriver
 import time
-import re
 from pyquery import pyquery as pq
 
 
