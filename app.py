@@ -13,12 +13,12 @@ while True:
     answerMap = {}
     f = open("answer.txt","r")
     line = f.readline()
-    while line:
-        q = line.split("-")[0]
-        a = line.split("-")[1]
-        answerMap[q] = a
-        print(q,answerMap[q])
-        line = f.readline()
+    while line and line!="":
+        if(len(line)>2):
+            q = line.split("#")[0]
+            a = line.split("#")[1]
+            answerMap[q] = a
+            line = f.readline()
     f.close()
     print("导入完成")
 
@@ -42,37 +42,39 @@ while True:
             question = wd.find_element_by_class_name("question").text
             question = question.split("\n")[0]
 
-        anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
 
         if(answerMap.get(question) != None): # 如果找到答案，根据答案点击正确答案，继续答下一题
-            print("找到答案\n")
+            anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
             anwser = answerMap[str(question)][0]
+            print("找到答案，本题答案为"+anwser)
 
             for anwser_item in anwser_items:
                 if(str(anwser_item.text).find(anwser)!= -1):
                     anwser_item.click()
                     break
         else: # 否则默认选第一个，把正确答案加入答案库
-            anwser_items[0].click()
             anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
+            anwser_items[0].click()
             time.sleep(2)   #等待2秒
             try:
                 index = 0
+                anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
                 for anwser_item in anwser_items:
                     if(anwser_item.get_attribute("class") == "answer-item correct"):
-                        anwser = anwser_item.text
-                        print(question+"-"+anwser)
-                        f.write(question+"-"+anwser+"\n")
+                        anwser = str(anwser_item.text).split(" ")[1]
+                        print("添加："+question+"-"+anwser)
+                        f.write(question+"#"+anwser+"\n")
                 if(anwser_items[0].get_attribute("class") != "answer-item correct"):
                     break
             except:
-                time.sleep(3)   #等待2秒
+                time.sleep(3)   #等待3秒
                 index = 0
+                anwser_items = wd.find_elements_by_class_name("answer-item") # 获取选项
                 for anwser_item in anwser_items:
                     if(anwser_item.get_attribute("class") == "answer-item correct"):
-                        anwser = anwser_item.text
-                        print(question+"-"+anwser)
-                        f.write(question+"-"+anwser+"\n")
+                        anwser = str(anwser_item.text).split(" ")[1]
+                        print("添加："+question+"-"+anwser)
+                        f.write(question+"#"+anwser+"\n")
                 if(anwser_items[0].get_attribute("class") != "answer-item correct"):
                     break
         f.close()
