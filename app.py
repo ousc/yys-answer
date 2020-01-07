@@ -8,6 +8,15 @@ options.add_argument('user-agent="Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Ma
 # 模拟iphone6
 
 while True:
+    answerMap = {}
+    f = open("answer.txt","a+")
+    line = f.readline()
+    while line:
+        q = line.split("-")[0]
+        a = line.split("-")[0]
+        answerMap[q] = anwser
+        line = f.readline()
+
     wd = webdriver.Chrome(options=options)
 
     wd.get("https://act.ds.163.com/93dcd3b7a7f888e6/")    # 打开平安京学历测试
@@ -27,16 +36,11 @@ while True:
             question = wd.find_element_by_class_name("question").text #题目
             question = question.split("\n")[0]
         anwser = ""
-        f = open("answer.txt","a+")
-        line = f.readline()
         exist_flag = False # 是否已经有答案了
-        while line:
-            q = line.split("-")[0]
-            a = line.split("-")[0]
-            if(q) == question:
-                anwser = a
-                exist_flag = True
-            line = f.readline()
+
+        if(answerMap[q] != None):
+            anwser = answerMap[q]
+            exist_flag = True
 
         anwser_items = wd.find_elements_by_class_name("answer-item")
         if(exist_flag):
@@ -46,7 +50,7 @@ while True:
                     anwser_item.click()
         else:
             anwser_items[0].click()
-            time.sleep(1)   #等待2秒
+            time.sleep(2)   #等待2秒
             try:
                 index = 0
                 for anwser_item in anwser_items:
