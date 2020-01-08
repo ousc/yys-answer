@@ -4,9 +4,9 @@ from pyquery import pyquery as pq
 import re
 
 options = webdriver.ChromeOptions()
-options.add_argument('user-agent="Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"')
+options.add_argument('user-agent="Mozilla/5.0 (Linux; Android 6.0.1; MIX 2 Build/V417IR; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.100 Mobile Safari/537.36 Godlike/2.0.4"')
 # 模拟iphone6
-
+#Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1
 while True:
     index = 0
     #导入答案
@@ -86,7 +86,7 @@ while True:
                     answerMap[str(question)] = str(answer)
             if(answer_items[0].get_attribute("class") != "answer-item correct"):
                 break
-        f.close()
+        ff.close()
         time.sleep(2)   #等待2秒
         index += 1
         if(index == 10):
