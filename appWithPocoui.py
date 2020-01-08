@@ -65,49 +65,55 @@ while True:
             print("找到答案，本题答案为" + answerMap[str(question)])
 
             have = False
-            if (str(choice1.get_text()).find(answer) != -1):
+            if (re.sub('[\n]+', '', str(choice1.get_text())).replace("A. ","")==answer):
                 choice1.click()
-            if (str(choice2.get_text()).find(answer) != -1):
+            if (re.sub('[\n]+', '', str(choice2.get_text())).replace("B. ","")==answer):
                 choice2.click()
-            if (str(choice3.get_text()).find(answer) != -1):
+            if (re.sub('[\n]+', '', str(choice3.get_text())).replace("C. ","")==answer):
                 choice3.click()
             if (choice4 != None):
-                if (str(choice4.get_text()).find(answer) != -1):
+                if (re.sub('[\n]+', '', str(choice4.get_text())).replace("D. ","")==answer):
                     choice4.click()
 
         else: # 否则默认选第一个，把正确答案加入答案库
             choice1.click()
             time.sleep(1)
+            which = 0
+            sizeW = []
+
             if(len(choice1.child("android.view.View"))==2):
-                print(choice1.child("android.view.View").get_size()[0])
-                if(choice1.child("android.view.View").get_size()[0] != 0.18055555555555555):
-                    answer = choices_text[0]
-                    print("添加：" + question + "-" + answer)
-                    ff.write(question + "#" + answer + "\n")
-                    answerMap[str(question)] = str(answer)
+                size = choice1.child("android.view.View").get_size()
+                print(size,choices_text[0])
+                sizeW.append({"name":0,size:size[0]/size[1]})
+
             if(len(choice2.child("android.view.View"))==2):
-                print(choice2.child("android.view.View").get_size()[0])
-                if(choice2.child("android.view.View").get_size()[0] == 0.18055555555555555):
-                    answer = choices_text[1]
-                    print("添加：" + question + "-" + answer)
-                    ff.write(question+"#"+answer+"\n")
-                    answerMap[str(question)] = str(answer)
+                size = choice2.child("android.view.View").get_size()
+                print(size,choices_text[1])
+                sizeW.append({"name":1,size:size[0]/size[1]})
+
             if(len(choice3.child("android.view.View"))==2):
-                print(choice3.child("android.view.View").get_size()[0])
-                if(choice3.child("android.view.View").get_size()[0] == 0.18055555555555555):
-                    answer = choices_text[2]
-                    print("添加：" + question + "-" + answer)
-                    ff.write(question+"#"+answer+"\n")
-                    answerMap[str(question)] = str(answer)
+                size = choice3.child("android.view.View").get_size()
+                print(size,choices_text[2])
+                sizeW.append({"name":2,size:size[0]/size[1]})
+
+
             if(choice4 != None):
-                if (len(choice4.child("android.view.View")) == 2):
-                    print(choice4.child("android.view.View").get_size()[0])
-                    if (choice4.child("android.view.View").get_size()[0] == 0.18055555555555555):
-                        answer = choices_text[3]
-                        print("添加：" + question + "-" + answer)
-                        ff.write(question + "#" + answer + "\n")
-                        answerMap[str(question)] = str(answer)
-            ff.close()
+                if(len(choice4.child("android.view.View"))==2):
+                    size = choice4.child("android.view.View").get_size()
+                    print(size,choices_text[3])
+                    sizeW.append({"name":3,size:size[0]/size[1]})
+
+            if(sizeW[0]>sizeW[1]):
+                which = sizeW[0]['name']
+            else:
+                which = sizeW[1]['name']
+
+            answer = choices_text[which]
+
+            print("添加：" + question + "-" + answer)
+            ff.write(question + "#" + answer + "\n")
+            answerMap[str(question)] = str(answer)
+
             try:
                 time.sleep(1)
                 poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[2].child("android.view.View").child(
@@ -118,3 +124,4 @@ while True:
                 time.sleep(1)
             except:
                 continue
+    ff.close()
