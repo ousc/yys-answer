@@ -18,7 +18,6 @@ while True:
             line = f.readline()
     f.close()
     print("导入完成")
-    ff = open("answer.txt","a+")
 
     poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
 
@@ -76,42 +75,58 @@ while True:
                     choice4.click()
 
         else: # 否则默认选第一个，把正确答案加入答案库
+            choice1 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                "android.view.View")[
+                3]
+            choice2 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                "android.view.View")[
+                4]
+            choice3 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                "android.view.View")[
+                5]
+            try:
+                choice4 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                    "android.view.View")[6]
+            except:
+                choice4 = None
             choice1.click()
-            time.sleep(1)
+            time.sleep(2)
             which = 0
             sizeW = []
-
             if(len(choice1.child("android.view.View"))==2):
-                size = choice1.child("android.view.View").get_size()
+                size = choice1.child("android.view.View")[1].get_size()
                 print(size,choices_text[0])
-                sizeW.append({"name":0,size:size[0]/size[1]})
+                sizeW.append({"name":0,"size":size[0]/size[1]})
 
             if(len(choice2.child("android.view.View"))==2):
-                size = choice2.child("android.view.View").get_size()
+                size = choice2.child("android.view.View")[1].get_size()
                 print(size,choices_text[1])
-                sizeW.append({"name":1,size:size[0]/size[1]})
+                sizeW.append({"name":1,"size":size[0]/size[1]})
 
             if(len(choice3.child("android.view.View"))==2):
-                size = choice3.child("android.view.View").get_size()
+                size = choice3.child("android.view.View")[1].get_size()
                 print(size,choices_text[2])
-                sizeW.append({"name":2,size:size[0]/size[1]})
+                sizeW.append({"name":2,"size":size[0]/size[1]})
 
 
             if(choice4 != None):
                 if(len(choice4.child("android.view.View"))==2):
-                    size = choice4.child("android.view.View").get_size()
+                    size = choice4.child("android.view.View")[1].get_size()
                     print(size,choices_text[3])
-                    sizeW.append({"name":3,size:size[0]/size[1]})
+                    sizeW.append({"name":3,"size":size[0]/size[1]})
 
-            if(sizeW[0]>sizeW[1]):
+            if(sizeW[0]['size']>sizeW[1]['size']):
                 which = sizeW[0]['name']
             else:
                 which = sizeW[1]['name']
 
             answer = choices_text[which]
 
-            print("添加：" + question + "-" + answer)
+            print("添加：" + question + "#" + answer)
+
+            ff = open("answer.txt", "a+")
             ff.write(question + "#" + answer + "\n")
+            ff.close()
             answerMap[str(question)] = str(answer)
 
             try:
@@ -124,4 +139,3 @@ while True:
                 time.sleep(1)
             except:
                 continue
-    ff.close()
