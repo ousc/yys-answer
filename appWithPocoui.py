@@ -61,6 +61,7 @@ while True:
         if(choice4 != None):
             choices_text.append(choice4.get_text().replace("D. ",""))
 
+        choices_text_bak = choices_text[:]
         choices_text = [i.encode("GBK") for i in choices_text]
         choices_text.sort()
         choices_text = [i.decode("GBK") for i in choices_text]
@@ -87,7 +88,6 @@ while True:
                     choice4.click()
 
         else: # 否则默认选第一个，把正确答案加入答案库
-            sizeW = [] #记录选项选错后后面图标的长和宽，长/宽较大的为正确答案
             choice1 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
                 "android.view.View")[
                 3]
@@ -119,7 +119,7 @@ while True:
                 if(len(choice4.child("android.view.View"))==2):
                     which = 3
 
-            answer = choices_text[which]
+            answer = choices_text_bak[which]
 
             print("添加：" + question + "#" + answer)
 
@@ -127,6 +127,7 @@ while True:
             ff.write(question + "#" + answer + "\n") # 写入答案
             ff.close()
             answerMap[str(question)] = str(answer)
+            time.sleep(2)
 
             try:#跳过答题结束后的几个对话框
                 time.sleep(1)
