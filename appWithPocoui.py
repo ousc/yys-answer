@@ -88,53 +88,36 @@ while True:
 
         else: # 否则默认选第一个，把正确答案加入答案库
             sizeW = [] #记录选项选错后后面图标的长和宽，长/宽较大的为正确答案
-            while(len(sizeW)==0): #有时因不明原因choice.click()无效，最终加入这个奇怪的东西保证不会卡住
-                choice1 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
-                    "android.view.View")[
-                    3]
-                choice2 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
-                    "android.view.View")[
-                    4]
-                try:
-                    choice3 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
-                        "android.view.View")[5]
-                except:
-                    choice3 = None
-                try:
-                    choice4 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
-                        "android.view.View")[6]
-                except:
-                    choice4 = None
-                choice1.click()
-                time.sleep(2)
-                which = 0
-                if(len(choice1.child("android.view.View"))==2):
-                    size = choice1.child("android.view.View")[1].get_size()
-                    print(size,choices_text[0])
-                    sizeW.append({"name":0,"size":size[0]/size[1]})
+            choice1 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                "android.view.View")[
+                3]
+            choice2 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                "android.view.View")[
+                4]
+            try:
+                choice3 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                    "android.view.View")[5]
+            except:
+                choice3 = None
+            try:
+                choice4 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                    "android.view.View")[6]
+            except:
+                choice4 = None
+            choice1.click()
+            time.sleep(2)
+            which = 0
 
-                if(len(choice2.child("android.view.View"))==2):
-                    size = choice2.child("android.view.View")[1].get_size()
-                    print(size,choices_text[1])
-                    sizeW.append({"name":1,"size":size[0]/size[1]})
+            if(len(choice2.child("android.view.View"))==2):
+                which = 1
 
-                if(choice3 != None):
-                    if(len(choice3.child("android.view.View"))==2):
-                        size = choice3.child("android.view.View")[1].get_size()
-                        print(size,choices_text[2])
-                        sizeW.append({"name":2,"size":size[0]/size[1]})
+            if(choice3 != None):
+                if(len(choice3.child("android.view.View"))==2):
+                    which = 2
 
-
-                if(choice4 != None):
-                    if(len(choice4.child("android.view.View"))==2):
-                        size = choice4.child("android.view.View")[1].get_size()
-                        print(size,choices_text[3])
-                        sizeW.append({"name":3,"size":size[0]/size[1]})
-
-            if(sizeW[0]['size']>sizeW[1]['size']):
-                which = sizeW[0]['name']
-            else:
-                which = sizeW[1]['name']
+            if(choice4 != None):
+                if(len(choice4.child("android.view.View"))==2):
+                    which = 3
 
             answer = choices_text[which]
 
