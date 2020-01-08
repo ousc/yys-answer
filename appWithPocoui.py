@@ -23,7 +23,10 @@ while True:
 
 
 
+    index = 1
     while True:
+        print("第"+str(index)+"题")
+        index += 1
         try:
             poco("android.widget.LinearLayout").offspring("app").child("android.view.View").child("android.view.View")[
                 7].child(
@@ -39,14 +42,20 @@ while True:
             3]
         choice2 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child("android.view.View")[
             4]
-        choice3 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child("android.view.View")[
-            5]
+        try:
+            choice3 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                "android.view.View")[5]
+        except:
+            choice3 = None
         try:
             choice4 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child("android.view.View")[
                 6]
         except:
             choice4 = None
-        choices_text = [choice1.get_text().replace("A. ",""),choice2.get_text().replace("B. ",""),choice3.get_text().replace("C. ","")]
+
+        choices_text = [choice1.get_text().replace("A. ",""),choice2.get_text().replace("B. ","")]
+        if(choice3 != None):
+            choices_text.append(choice3.get_text().replace("C. ", ""))
         if(choice4 != None):
             choices_text.append(choice4.get_text().replace("D. ",""))
 
@@ -68,8 +77,9 @@ while True:
                 choice1.click()
             if (re.sub('[\n]+', '', str(choice2.get_text())).replace("B. ","")==answer):
                 choice2.click()
-            if (re.sub('[\n]+', '', str(choice3.get_text())).replace("C. ","")==answer):
-                choice3.click()
+            if (choice3 != None):
+                if (re.sub('[\n]+', '', str(choice3.get_text())).replace("C. ","")==answer):
+                    choice3.click()
             if (choice4 != None):
                 if (re.sub('[\n]+', '', str(choice4.get_text())).replace("D. ","")==answer):
                     choice4.click()
@@ -81,9 +91,11 @@ while True:
             choice2 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
                 "android.view.View")[
                 4]
-            choice3 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
-                "android.view.View")[
-                5]
+            try:
+                choice3 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
+                    "android.view.View")[5]
+            except:
+                choice3 = None
             try:
                 choice4 = poco("android.widget.LinearLayout").offspring("app").child("android.view.View")[1].child(
                     "android.view.View")[6]
@@ -103,10 +115,11 @@ while True:
                 print(size,choices_text[1])
                 sizeW.append({"name":1,"size":size[0]/size[1]})
 
-            if(len(choice3.child("android.view.View"))==2):
-                size = choice3.child("android.view.View")[1].get_size()
-                print(size,choices_text[2])
-                sizeW.append({"name":2,"size":size[0]/size[1]})
+            if(choice3 != None):
+                if(len(choice3.child("android.view.View"))==2):
+                    size = choice3.child("android.view.View")[1].get_size()
+                    print(size,choices_text[2])
+                    sizeW.append({"name":2,"size":size[0]/size[1]})
 
 
             if(choice4 != None):
