@@ -34,4 +34,4 @@ pip3 install pocoui
 python appWithPocoui.py
 ```
 
-（理论上可以做到自动答题）
+（理论上可以做到自动答题，但是题库在不断更新，无法保证题库是完整的，所以建议根据爬来的数据自己做题）

@@ -105,7 +105,7 @@ while True:
             except:
                 choice4 = None
             choice1.click()
-            time.sleep(2)
+            time.sleep(1)
             which = 0
 
             if(len(choice2.child("android.view.View"))==2):
@@ -127,7 +127,7 @@ while True:
             ff.write(question + "#" + answer + "\n") # 写入答案
             ff.close()
             answerMap[str(question)] = str(answer)
-            time.sleep(2)
+            time.sleep(1)
 
             try:#跳过答题结束后的几个对话框
                 time.sleep(1)
